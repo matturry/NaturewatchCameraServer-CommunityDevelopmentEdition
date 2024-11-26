@@ -53,7 +53,7 @@ apt-get dist-upgrade -y
 
 # Install extra packages (with specific versions) to avoid breaking the system:
 # apt list python3-picamera2 git python3-pip python3-libcamera libcap-dev ffmpeg python3-flask python3-numpy python3-opencv python3-kms++ --installed
-apt-get install -y python3-picamera2=0.3.19-1 --no-install-recommends
+apt-get install -y python3-picamera2 --no-install-recommends
 apt-get install -y git=1:2.39.2-1.1 python3-pip=23.0.1+dfsg-1+rpt1 python3-libcamera=0.3.0+rpt20240617-1 libcap-dev=1:2.66-4 ffmpeg=8:5.1.5-0+rpt1+deb12u1 python3-flask=2.2.2-3 python3-numpy=1:1.24.2-1 python3-opencv=4.6.0+dfsg-12+rpi1 python3-kms++=0~git20231115~065257+9ae90ce-1
 
 # Setup a venv
