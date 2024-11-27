@@ -38,6 +38,10 @@ def create_app():
     # load central config file first
     flask_app.user_config = json.load(open(os.path.join(module_path, "config.json")))
 
+    # Check if data directory exists
+    if os.path.isdir(os.path.join(module_path, flask_app.user_config["data_path"])) is False:
+        os.mkdir(os.path.join(module_path, flask_app.user_config["data_path"]))
+        
     # Check if a config file exists in data directory
     if os.path.isfile(os.path.join(module_path, flask_app.user_config["data_path"], 'config.json')):
         # if yes, load that file, too
