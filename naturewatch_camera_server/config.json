@@ -2,7 +2,7 @@
     "LED": "off",
     "af_enable": 1,
     "analogue_gain": 1.0,
-    "data_path": "static/data/",
+    "data_path": "/home/pi/NaturewatchCameraServer/naturewatch_camera_server/static/data/",
     "exposure_mode": "off",
     "feed_timeout_s": 60,
     "frame_rate": 20,
