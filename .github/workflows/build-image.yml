@@ -71,7 +71,7 @@ jobs:
 
       - name: Zip Output
         run: gzip mynaturewatch-camera.img
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: mynaturewatch-camera.img.gz
           path: mynaturewatch-camera.img.gz
@@ -90,7 +90,7 @@ jobs:
 
       - name: Upload Release
         id: upload-release-asset
-        uses: actions/upload-release-asset@v2
+        uses: actions/upload-release-asset@v1
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
