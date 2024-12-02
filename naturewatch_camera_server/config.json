@@ -2,7 +2,7 @@
     "LED": "off",
     "af_enable": 1,
     "analogue_gain": 1.0,
-    "data_path": "/home/pi/NaturewatchCameraServer/naturewatch_camera_server/static/data/",
+    "data_path": "./static/data/",
     "exposure_mode": "off",
     "feed_timeout_s": 60,
     "frame_rate": 20,
@@ -10,7 +10,7 @@
     "img_width": 1920,
     "log_level": "INFO",
     "min_photo_interval_s": 1,
-    "photos_path": "/home/pi/NaturewatchCameraServer/naturewatch_camera_server/static/data/photos/",
+    "photos_path": "./static/data/photos/",
     "resolution": "1920x1080",
     "rotate_camera": 0,
     "sensitivity": 4,
@@ -23,5 +23,5 @@
     "tn_width": 200,
     "video_duration_after_motion": 10,
     "video_duration_before_motion": 5,
-    "videos_path": "/home/pi/NaturewatchCameraServer/naturewatch_camera_server/static/data/videos/"
+    "videos_path": "./static/data/videos/"
 }
