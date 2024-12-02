@@ -1,6 +1,6 @@
 export DIST_NAME=MyNaturewatchCamera
 export DIST_VERSION=3.0
-export MODULES="base(admin-toolkit,network,disable-services(auto-hotspot,raspicam,naturewatchcamera))"
+export MODULES="base(admin-toolkit,network,disable-services(raspicam,naturewatchcamera))"
 export BASE_IMAGE_ENLARGEROOT=2000
 export AUTO_HOTSPOT_NAME=MyNaturewatch
 export AUTO_HOTSPOT_PASSWORD=badgersandfoxes
