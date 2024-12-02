@@ -75,6 +75,7 @@ def create_app():
         os.mkdir(flask_app.user_config["photos_path"])
         flask_app.logger.warning("Photos directory does not exist, creating path")
     flask_app.user_config["videos_path"] = os.path.join(module_path, flask_app.user_config["videos_path"])
+    flask_app.logger.info("Videos path: " + flask_app.user_config["videos_path"])
     if os.path.isdir(flask_app.user_config["videos_path"]) is False:
         os.mkdir(flask_app.user_config["videos_path"])
         flask_app.logger.warning("Videos directory does not exist, creating path")
