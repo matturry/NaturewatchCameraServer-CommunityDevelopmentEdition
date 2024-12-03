@@ -3,7 +3,7 @@
     "af_enable": 1,
     "analogue_gain": 1.0,
     "data_path": "./static/data/",
-    "exposure_mode": "off",
+    "exposure_mode": "auto",
     "feed_timeout_s": 60,
     "frame_rate": 20,
     "img_height": 1080,
@@ -14,14 +14,15 @@
     "resolution": "1920x1080",
     "rotate_camera": 0,
     "sensitivity": 4,
-    "sharpness_mode": "manual",
+    "sharpness_mode": "auto",
     "sharpness_val": 1,
     "shutter_speed": 2000,
     "timelapse_active": false,
     "timelapse_interval": 30,
-    "timestamp": "on",
+    "timestamp": "off",
     "tn_width": 200,
     "video_duration_after_motion": 10,
     "video_duration_before_motion": 5,
     "videos_path": "./static/data/videos/"
 }
+
