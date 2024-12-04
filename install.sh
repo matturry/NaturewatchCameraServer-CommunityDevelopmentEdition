@@ -68,6 +68,9 @@ pushd NaturewatchCameraServer
 # Install python dependencies
 ${INSTALLATION_PATH}/NaturewatchCameraServer/.venv/bin/pip install -r requirements.txt
 
+#set wifi country code
+iw reg set US
+
 echo "Adding services"
 # Allows to reinstall the service
 systemctl stop python.naturewatch.service >/dev/null 2>&1
