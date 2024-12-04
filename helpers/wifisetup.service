@@ -1,6 +1,6 @@
 [Unit]
 Description=Wifi Setup
-After=multi-user.target
+After=multi-user.target wpa_supplicant.service
 
 [Service]
 Type=simple
