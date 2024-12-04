@@ -3,6 +3,7 @@
 based on the Pi's serial number."""
 import os
 import subprocess
+import time
 
 # Get SSID and passphrase from hostapd.conf
 #HOST_CONFIG_FILE_PATH = "/etc/hostapd/hostapd.conf"
@@ -23,6 +24,7 @@ unique_ssid = f"MyNaturewatch-{unique_id.strip().decode('utf-8')[-8:]}"
 #    print("Unique SSID already set, no further action is needed.")
 #else:
 print("Updating hotspot")
-#os.system("sudo iw reg set US") 
+os.system("sudo ifconfig wlan0 up")
+time.sleep(5)
 os.system("sudo nmcli r wifi on") 
 os.system("sudo nmcli device wifi hotspot ssid " + unique_ssid + " password badgersandfoxes" ifname wlan0)
