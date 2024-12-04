@@ -24,6 +24,7 @@ unique_ssid = f"MyNaturewatch-{unique_id.strip().decode('utf-8')[-8:]}"
 #    print("Unique SSID already set, no further action is needed.")
 #else:
 print("Updating hotspot")
+os.system("sudo iw reg set US")
 os.system("sudo ifconfig wlan0 up")
 time.sleep(5)
 os.system("sudo nmcli r wifi on") 
