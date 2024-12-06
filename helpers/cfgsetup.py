@@ -24,11 +24,13 @@ unique_ssid = f"MyNaturewatch-{unique_id.strip().decode('utf-8')[-8:]}"
 #    print("Unique SSID already set, no further action is needed.")
 #else:
 print("Updating hotspot")
-#---HOTFIX---
-os.system("sudo systemctl restart NetworkManager")
-time.sleep(5) 
-#------------
+
 os.system("sudo iw reg set US")
 os.system("sudo nmcli r wifi on") 
-os.system("sudo ifconfig wlan0 up")
-os.system("sudo nmcli con add type wifi hotspot ssid " + unique_ssid + " password badgersandfoxes ifname wlan0 autoconnect yes")
+os.system("sudo nmcli con delete id hotspot")
+os.system("sudo nmcli con add type wifi wlan0 con-name Hotspot")
+os.systen("sudo nmcli device wifi Hotspot ssid " + unique_ssid + " password badgersandfoxes ifname wlan0")
+os.system("sudo nmcli connection modify Hotspot connection.autoconnect yes")
+os.system("sudo systemctl restart NetworkManager")
+time.sleep(5) 
+os.system("sudo nmcli con up Hotspot")
