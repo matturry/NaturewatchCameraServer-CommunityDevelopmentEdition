@@ -114,7 +114,7 @@ class ChangeDetector(Thread):
                     if self.mode == "photo":
                         image = self.camera_controller.get_hires_image()
                         self.file_saver.save_image(image, timestamp)
-                        self.file_saver.save_thumb(imutils.resize(image, width=self.config["md_width"]), timestamp, self.mode)
+                        self.file_saver.save_thumb(imutils.resize(image, width=self.config["tn_width"]), timestamp, self.mode)
                         self.lastPhotoTime = self.get_fake_time()
                         self.logger.info('ChangeDetector: photo capture completed')
                         yuvimg = None
@@ -149,7 +149,7 @@ class ChangeDetector(Thread):
                 timestamp = self.get_formatted_time()
                 image = self.camera_controller.get_hires_image()
                 self.file_saver.save_image(image, timestamp)
-                self.file_saver.save_thumb(imutils.resize(image, width=self.config["md_width"]), timestamp, self.mode)
+                self.file_saver.save_thumb(imutils.resize(image, width=self.config["tn_width"]), timestamp, self.mode)
                 self.lastPhotoTime = self.get_fake_time()
                 self.logger.info('ChangeDetector: photo capture completed')
 
