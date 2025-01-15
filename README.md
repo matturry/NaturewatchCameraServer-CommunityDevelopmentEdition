@@ -1,35 +1,53 @@
-![Build Image](https://github.com/interactionresearchstudio/NaturewatchCameraServer/workflows/Build%20Image/badge.svg)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/interactionresearchstudio/NaturewatchCameraServer)
-![GitHub all releases](https://img.shields.io/github/downloads/interactionresearchstudio/NaturewatchCameraServer/total)
+![Build Image](https://github.com/interactionresearchstudio/NaturewatchCameraServer/workflows/Build%20Image/badge.svg?branch=dev)
 
-# NaturewatchCameraServer
 
-This is the main software for the My Naturewatch Camera. It is a Python server 
+# NaturewatchCameraServer - Experimental edition
+
+This is the Developement branch for the My Naturewatch Camera. It is a Python server 
 script that captures a video stream from a Pi Camera and serves it as a .mjpg 
 through a control website to another device. The website can be used to start 
 a photo capture or video capture based on motion detected in the frame. The 
-software is designed to run on a Raspberry Pi Zero W so that you can make your 
+software is designed to run on a Raspberry Pi Zero 2 W so that you can make your 
 own low-cost wildlife camera.
 
-Part of the My Naturewatch project by the Interaction Research Studio, in collaboration with the RCA.
+Part of the My Naturewatch project by the Interaction Research Studio, in collaboration with the RCA. This project 
+
+
+# Differences between versions
+
+- This branch is experimental, and is not intended to replace the Main branch software when a "Plug and Play" solution is required.
+- Updated to Raspberry Pi OS based on Bookworm.
+- This software now using PiCamera2, allowing support for newer Pi Camera, like Pi Camera Module 3 (many thanks to [caracoluk](https://github.com/caracoluk) and [Vincent-Stragier](https://github.com/Vincent-Stragier)).
+- Wifi and Hotspot now controlled by NetworkManager.
+- Added features and camera controls the on settings panel.
+
+These updates now should make it easier for users to adapt and update MyNaturewatch Camera software using newer libaries and tools.
+
+# Supported Devices
+
+- [ ] Pi 1 A/B/+
+- [ ] Pi 2
+- [ ] Pi Zero W
+- [x] Pi 3 A/B/+
+- [x] Pi 4
+- [x] Pi Zero 2 W
+- [x] Pi 5
 
 # How to install
 
-To use the image, download the lastest zip build from [Releases](https://github.com/interactionresearchstudio/NaturewatchCameraServer/releases)
+Either clone the repository and build software locally, fork the repository and run the Github Actions build or download the latest commit build.
 
-Uncompress and burn this to an SD card. We recommend using [Balena Etcher](https://www.balena.io/etcher/) for this.
+Uncompress the zip file and burn this to an SD card. We recommend using [Raspberry Pi Imager](https://www.raspberrypi.com/software/) for this.
 
 ## Configuring the wifi setup
 
 The device automatically creates a hotspot network named MyNatureWatch-12345, with the numbers being a unique ID. 
 
-You can also connect the device directly to a home network by following this [guide](https://mynaturewatch.net/instructions-homenetwork)
-
 ## Access the interface
 
 The website is then accessible through its IP address:
 
-	http://192.168.50.1
+	http://10.42.0.1
 	
 If your device has Bonjour installed, you can also use:
 
@@ -53,4 +71,5 @@ a full release.
 ## Support
 
 If you require support, please head over to the [My Naturewatch Forum](https://mynaturewatch.net/forum).
+
 
