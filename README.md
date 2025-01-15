@@ -1,7 +1,7 @@
 ![Build Image](https://github.com/interactionresearchstudio/NaturewatchCameraServer/workflows/Build%20Image/badge.svg?branch=dev)
 
 
-# NaturewatchCameraServer - Experimental edition
+# NaturewatchCameraServer - Community edition
 
 This is the Developement branch for the My Naturewatch Camera. It is a Python server 
 script that captures a video stream from a Pi Camera and serves it as a .mjpg 
