@@ -71,7 +71,7 @@ jobs:
 
       - name: Zip Output
         run: gzip mynaturewatch-camera.img
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: mynaturewatch-camera.img.gz
           path: mynaturewatch-camera.img.gz
