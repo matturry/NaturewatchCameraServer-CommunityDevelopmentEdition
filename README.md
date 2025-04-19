@@ -38,7 +38,16 @@ Uncompress the zip file and burn this to an SD card. We recommend using [Raspber
 
 ## Configuring the wifi setup
 
-The device automatically creates a hotspot network named MyNatureWatch-12345, with the numbers being a unique ID. 
+The device automatically creates a hotspot network named MyNatureWatch-12345, with the numbers being a unique ID.
+
+**NOTE:** If you want to connect the device to your home network via wifi you will need to disable the wifi
+hotspot service by logging into the device and running
+
+```bash
+$ sudo systemctl disable --now wifisetup.service
+```
+
+If you do not do this your wifi settings will be overridden when it restarts.
 
 ## Access the interface
 
