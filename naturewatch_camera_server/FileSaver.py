@@ -27,7 +27,7 @@ class FileSaver(Thread):
 
         self.config = config
 
-# Scaledown factor for thumbnail images
+        # Scaledown factor for thumbnail images
 
         self.thumbnail_factor = self.config["tn_width"] / self.config["img_width"]
 
