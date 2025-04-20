@@ -149,8 +149,11 @@ def construct_settings_object(camera_controller, change_detector):
     timestamp = current_app.user_config["timestamp"]
 
     # Get CPU temperature
-    temp = subprocess.run(["vcgencmd", "measure_temp"], capture_output=True, text=True)
-    CPUTemp = (temp.stdout.replace("temp=","").replace("'C",""))
+    try:
+        temp = subprocess.run(["vcgencmd", "measure_temp"], capture_output=True, text=True)
+        CPUTemp = (temp.stdout.replace("temp=","").replace("'C",""))
+    except Exception:
+        CPUTemp = "???"
 
     settings = {
         "rotation": camera_controller.rotated_camera,
