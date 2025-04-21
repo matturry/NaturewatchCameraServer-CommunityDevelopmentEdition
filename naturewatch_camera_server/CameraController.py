@@ -4,7 +4,6 @@ import imutils
 import time
 import logging
 import io
-import json
 import numpy as np
 import os
 import datetime as dt
@@ -324,11 +323,8 @@ class CameraController(threading.Thread):
                     video_config = self.camera.create_video_configuration(main={"size": self.camera.mainsize, "format": "YUV420"}, lores={"size": self.camera.lsize, "format": "YUV420"}, raw={"size": self.camera.mainsize}, transform=Transform(hflip=self.rotated_camera, vflip=self.rotated_camera))
                     self.camera.configure(video_config)
                     self.camera.start()
-                new_config = self.config
-                new_config["rotate_camera"] = 1
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
+                self.config["rotate_camera"] = 1
+                self.config.flush()
             else:
                 if picamera_exists:
                     self.camera.rotation = 0
@@ -336,11 +332,8 @@ class CameraController(threading.Thread):
                     video_config = self.camera.create_video_configuration(main={"size": self.camera.mainsize, "format": "YUV420"}, lores={"size": self.camera.lsize, "format": "YUV420"}, raw={"size": self.camera.mainsize}, transform=Transform(hflip=self.rotated_camera, vflip=self.rotated_camera))
                     self.camera.configure(video_config)
                     self.camera.start()
-                new_config = self.config
-                new_config["rotate_camera"] = 0
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
+                self.config["rotate_camera"] = 0
+                self.config.flush()
 
     # Set picamera exposure
     def set_exposure(self, ExposureTime, AnalogueGain):
@@ -349,19 +342,14 @@ class CameraController(threading.Thread):
             self.exposure_mode = 'off'
             # Need to wait a short while for the new settings to take effect before we query the new value from the camera
             time.sleep(0.5)
-            new_config = self.config
-            new_config["shutter_speed"] = ExposureTime
-            new_config["exposure_mode"] = "off"
-            module_path = os.path.abspath(os.path.dirname(__file__))
-            self.config = self.update_config(new_config,
-                                             os.path.join(module_path, self.config["data_path"], 'config.json'))
-
+            self.config["shutter_speed"] = ExposureTime
+            self.config["exposure_mode"] = "off"
+            self.config.flush()
 
     def get_exposure_mode(self):
         if picamera_exists:
             self.logger.debug('Exposure mode is set to: {}'.format(self.exposure_mode))
             return self.exposure_mode
-
 
     def get_MetaData(self,control):
         if picamera_exists:         
@@ -380,7 +368,6 @@ class CameraController(threading.Thread):
             else:
                 return metadata[control]
 
-
     def find_closest_exposure(self, ExpList, ExpValue):
         """
         If two numbers are equally close, return the smallest number.
@@ -397,7 +384,6 @@ class CameraController(threading.Thread):
         else:
             return before
 
-
     def auto_exposure(self):
         """
         Set picamera exposure to auto
@@ -406,35 +392,25 @@ class CameraController(threading.Thread):
         if picamera_exists:
             self.exposure_mode = 'auto'
             self.camera.set_controls({"ExposureTime": 0, "AnalogueGain": 0, "AwbMode" : controls.AwbModeEnum.Auto})
-            new_config = self.config
-            new_config["exposure_mode"] = "auto"
-            module_path = os.path.abspath(os.path.dirname(__file__))
-            self.config = self.update_config(new_config,
-                                             os.path.join(module_path, self.config["data_path"], 'config.json'))
+            self.config["exposure_mode"] = "auto"
+            self.config.flush()
 
     # Set camera resolution
     def set_resolution(self, resolution):
         if self.resolution != resolution:
             self.resolution = resolution
             if resolution == "1640x1232":
-                new_config = self.config
-                new_config["resolution"] = "1640x1232"
-                new_config["img_height"] = 1232
-                new_config["img_width"] = 1640
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
+                self.config["resolution"] = "1640x1232"
+                self.config["img_height"] = 1232
+                self.config["img_width"] = 1640
+                self.config.flush()
                 subprocess.run(["sudo", "systemctl", "restart", "python.naturewatch.service"])        
             else:
-                new_config = self.config
-                new_config["resolution"] = "1920x1080"
-                new_config["img_height"] = 1080
-                new_config["img_width"] = 1920
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
+                self.config["resolution"] = "1920x1080"
+                self.config["img_height"] = 1080
+                self.config["img_width"] = 1920
+                self.config.flush()
                 subprocess.run(["sudo", "systemctl", "restart", "python.naturewatch.service"])
-
 
     # Set LED output
     def set_LED(self, LED):
@@ -444,21 +420,14 @@ class CameraController(threading.Thread):
                 #Disable LED
                 GPIO.output(16, False)
                 self.logger.debug('CameraController: LED disabled')
-                new_config = self.config
-                new_config["LED"] = "off"
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
+                self.config["LED"] = "off"
+                self.config.flush()
             else:
                 #Enable LED
                 GPIO.output(16, True)
                 self.logger.debug('CameraController: LED enabled')
-                new_config = self.config
-                new_config["LED"] = "on"
-                module_path = os.path.abspath(os.path.dirname(__file__))
-                self.config = self.update_config(new_config,
-                                                 os.path.join(module_path, self.config["data_path"], 'config.json'))
-
+                self.config["LED"] = "on"
+                self.config.flush()
 
     # Synchronise time with client
     def set_Time(self, clienttime):
@@ -476,21 +445,14 @@ class CameraController(threading.Thread):
             #Timestamps disabled
             self.timestamp = 0
             self.logger.debug('CameraController: Timestamps disabled')
-            new_config = self.config
-            new_config["timestamp"] = "off"
-            module_path = os.path.abspath(os.path.dirname(__file__))
-            self.config = self.update_config(new_config,
-                                             os.path.join(module_path, self.config["data_path"], 'config.json'))
+            self.config["timestamp"] = "off"
+            self.config.flush()
         else:
             #Timestamps enabled
             self.timestamp = 1
             self.logger.debug('CameraController: Timestamps enabled')
-            new_config = self.config
-            new_config["timestamp"] = "on"
-            module_path = os.path.abspath(os.path.dirname(__file__))
-            self.config = self.update_config(new_config,
-                                             os.path.join(module_path, self.config["data_path"], 'config.json'))
-
+            self.config["timestamp"] = "on"
+            self.config.flush()
 
     # Set Camera Sharpness
     def set_sharpness(self, sharpness_val, sharpness_mode):
@@ -501,13 +463,9 @@ class CameraController(threading.Thread):
             self.sharpness_val = int(sharpness_val)
         self.camera.set_controls({"Sharpness": sharpness_val})
         self.logger.debug('CameraController: Sharpness set to {}'.format(sharpness_val))
-        new_config = self.config
-        new_config["sharpness_val"] = sharpness_val
-        new_config["sharpness_mode"] = sharpness_mode
-        module_path = os.path.abspath(os.path.dirname(__file__))
-        self.config = self.update_config(new_config,
-                                         os.path.join(module_path, self.config["data_path"], 'config.json'))
-
+        self.config["sharpness_val"] = sharpness_val
+        self.config["sharpness_mode"] = sharpness_mode
+        self.config.flush()
 
     # Carry out Shutdown option
     def set_Shutdown(self, Shutdown):
@@ -517,16 +475,3 @@ class CameraController(threading.Thread):
         else:
             #Carry out reboot
             subprocess.run(["sudo", "reboot", "now"]) 
-
-
-    @staticmethod
-    def update_config(new_config, config_path):
-        with open(config_path, 'w') as json_file:
-            contents = json.dumps(new_config, sort_keys=True, indent=4, separators=(',', ': '))
-            json_file.write(contents)
-        return new_config
-
-
-
-
-
