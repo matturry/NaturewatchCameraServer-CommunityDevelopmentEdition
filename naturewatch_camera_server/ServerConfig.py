@@ -54,3 +54,17 @@ class Config:
     @property
     def videos_path(self):
         return self.data_path / self.config['videos_path']
+
+    @property
+    def hi_res(self):
+        width, height = self.config["resolution"].split('x', 1)
+        res = (int(width), int(height))
+        assert res in [(1640, 1232), (1920, 1080)]
+        return  res
+
+    @property
+    def lo_res(self):
+        assert self.hi_res in [(1640, 1232), (1920, 1080)]
+        if self.hi_res == (1640, 1232):
+            return (320, 240)
+        return (320, 180)

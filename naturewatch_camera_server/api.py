@@ -156,12 +156,8 @@ def construct_settings_object(camera_controller, change_detector):
         CPUTemp = "???"
 
     settings = {
-        "rotation": camera_controller.rotated_camera,
-        "exposure": {
-            "mode": camera_controller.get_exposure_mode(),
-            "analogue_gain": camera_controller.get_MetaData("AnalogueGain"),
-            "shutter_speed": camera_controller.get_MetaData("ExposureTime")
-        },
+        "rotation": current_app.user_config["rotate_camera"] == 1,
+        "exposure": camera_controller.get_exposure_settings(),
         "sensitivity": sensitivity,
         "resolution": resolution,
         "LED": LED,
