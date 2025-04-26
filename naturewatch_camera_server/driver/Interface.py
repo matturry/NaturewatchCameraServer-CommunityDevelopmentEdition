@@ -75,3 +75,10 @@ class DriverInterface(abc.ABC):
     def stop_video_capture(self):
         pass
 
+    @abc.abstractmethod
+    def get_cpu_temp(self):
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self, reboot):
+        pass

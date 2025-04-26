@@ -73,7 +73,10 @@ def settings_handler():
     :return: settings json object
     """
     if request.method == 'GET':
-        settings = construct_settings_object(current_app.camera_controller, current_app.change_detector)
+        settings = construct_settings_object(
+            current_app.driver, current_app.camera_controller,
+            current_app.change_detector,
+        )
         return Response(json.dumps(settings), mimetype='application/json')
     elif request.method == 'POST':
         settings = request.json
@@ -107,7 +110,8 @@ def settings_handler():
                                                         settings["sharpness"]["sharpness_mode"])
 
         if "Shutdown" in settings:
-            current_app.camera_controller.set_Shutdown(settings["Shutdown"])
+            # 1 for reboot, 0 for shutdown
+            current_app.driver.reboot(settings["Shutdown"] == 1)
 
         if "mode" in settings["exposure"]:
             if settings["exposure"]["mode"] == "auto":
@@ -130,11 +134,14 @@ def settings_handler():
         module_path = os.path.abspath(os.path.dirname(__file__))
         current_app.camera_controller.config = current_app.camera_controller.update_config(new_config, os.path.join(module_path, current_app.camera_controller.config["data_path"], 'config.json'))
         
-        new_settings = construct_settings_object(current_app.camera_controller, current_app.change_detector)
+        new_settings = construct_settings_object(
+            current_app.driver, current_app.camera_controller,
+            current_app.change_detector
+        )
         return Response(json.dumps(new_settings), mimetype='application/json')
 
 
-def construct_settings_object(camera_controller, change_detector):
+def construct_settings_object(driver, camera_controller, change_detector):
     """
     Construct a dictionary populated with the current settings of the camera controller and change detector.
     This section runs when the web page is opened, but also after changes are made to the settings.
@@ -147,13 +154,7 @@ def construct_settings_object(camera_controller, change_detector):
     resolution = current_app.user_config["resolution"]
     LED = current_app.user_config["LED"]
     timestamp = current_app.user_config["timestamp"]
-
-    # Get CPU temperature
-    try:
-        temp = subprocess.run(["vcgencmd", "measure_temp"], capture_output=True, text=True)
-        CPUTemp = (temp.stdout.replace("temp=","").replace("'C",""))
-    except Exception:
-        CPUTemp = "???"
+    CPUTemp = driver.get_cpu_temp()
 
     settings = {
         "rotation": current_app.user_config["rotate_camera"] == 1,

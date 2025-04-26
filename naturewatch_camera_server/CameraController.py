@@ -251,12 +251,3 @@ class CameraController(threading.Thread):
         self.config["sharpness_val"] = sharpness_val
         self.config["sharpness_mode"] = sharpness_mode
         self.config.flush()
-
-    # Carry out Shutdown option
-    def set_Shutdown(self, Shutdown):
-        if Shutdown == "0":
-            #Carry out shutdown
-            subprocess.run(["sudo", "shutdown", "now"]) 
-        else:
-            #Carry out reboot
-            subprocess.run(["sudo", "reboot", "now"]) 

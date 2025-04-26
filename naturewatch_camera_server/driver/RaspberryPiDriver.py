@@ -203,3 +203,18 @@ class RPiDriver(DriverInterface):
     def stop_video_capture(self):
         self.encoder.output.stop()
         self.encoder.output.fileoutput = None
+
+    def get_cpu_temp(self):
+        try:
+            return subprocess.run(
+                ["vcgencmd", "measure_temp"], capture_output=True,
+                text=True
+            ).replace("temp=", "").replace("'C", "")
+        except Exception:
+            return "???"
+
+    def shutdown(self, reboot):
+        if not reboot:
+            subprocess.run(["sudo", "shutdown", "now"])
+        else:
+            subprocess.run(["sudo", "reboot", "now"])
