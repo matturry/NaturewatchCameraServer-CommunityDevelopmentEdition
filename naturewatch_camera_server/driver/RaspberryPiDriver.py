@@ -54,19 +54,19 @@ class RPiDriver(DriverInterface):
             'RPiDriver: camera module revision %s detected.',
             self.camera_model
         )
-        frame_duration = 1_000_000 // self.config["frame_rate"]
-        rotated = self.config["rotate_camera"] == 1
+        frame_duration = 1_000_000 // config["frame_rate"]
+        rotated = config["rotate_camera"] == 1
         video_config = self.camera.create_video_configuration(**{
             ImageResolution.HIRES: {
-                "size": self.config["hi_res"],
+                "size": config["hi_res"],
                 "format": "YUV420"
             },
             ImageResolution.LORES: {
-                "size": self.config["lo_res"],
+                "size": config["lo_res"],
                 "format": "YUV420"
             }, 
             'raw' :{
-                "size": self.config["hi_res"]
+                "size": config["hi_res"]
             },
             'transform': Transform(hflip=rotated, vflip=rotated),
             'controls' : {
@@ -85,20 +85,20 @@ class RPiDriver(DriverInterface):
         )
         self.logger.debug(
             'RPiDriver: Motion detection stream prepared with resolution %dx%d',
-            *self.config['lo_res']
+            *config['lo_res']
         )
-        exposure_mode = ExposureMode.AUTO if self.config["exposure_mode"] == "auto" else ExposureMode.MANUAL
-        self.set_exposure(exposure_mode, self.config["shutter_speed"], self.config["analogue_gain"])
+        exposure_mode = ExposureMode.AUTO if config["exposure_mode"] == "auto" else ExposureMode.MANUAL
+        self.set_exposure(exposure_mode, config["shutter_speed"], config["analogue_gain"])
         if config["af_enable"] == 1:
             self.autofocus()
-        sharpness_mode = SharpnessMode.AUTO if self.config["sharpness_mode"] == "auto" else SharpnessMode.MANUAL
-        self.set_sharpness(sharpness_mode, self.config["sharpness_val"])
+        sharpness_mode = SharpnessMode.AUTO if config["sharpness_mode"] == "auto" else SharpnessMode.MANUAL
+        self.set_sharpness(sharpness_mode, config["sharpness_val"])
         # Set CircularOutput buffer size. One buffer per frame so it's framerate x total
         # number of seconds we wish to retain before motion is detected. 
         # We add an extra 1.1s to ensure we get the full time expected as this
         # was found to be necessary in testing
         self.video_buffer_size = int(
-            self.config["frame_rate"] * (self.config["video_duration_before_motion"] + 1.1)
+            config["frame_rate"] * (config["video_duration_before_motion"] + 1.1)
         )
         self.encoder = H264Encoder(repeat=True, iperiod=15)
         self.encoder.output = CircularOutput(buffersize=self.video_buffer_size)

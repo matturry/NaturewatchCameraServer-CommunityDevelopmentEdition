@@ -13,6 +13,9 @@ from naturewatch_camera_server.api import api
 from naturewatch_camera_server.data import data
 from naturewatch_camera_server.static_page import static_page
 
+from .driver.RaspberryPiDriver import RPiDriver as Driver
+
+
 MODULE_PATH = pathlib.Path(__file__).parent
 CENTRAL_CONFIG_FILE = MODULE_PATH / "config.json"
 
@@ -71,7 +74,8 @@ def create_app():
     flask_app.user_config["videos_path"].mkdir(exist_ok=True)
 
     # Instantiate classes
-    flask_app.camera_controller = CameraController(flask_app.logger, flask_app.user_config)
+    flask_app.driver = Driver(flask_app.logger)
+    flask_app.camera_controller = CameraController(flask_app.logger, flask_app.driver, flask_app.user_config)
     flask_app.logger.debug("Instantiating classes ...")
     flask_app.change_detector = ChangeDetector(flask_app.camera_controller, flask_app.user_config, flask_app.logger)
     flask_app.file_saver = FileSaver(flask_app.user_config, flask_app.logger)

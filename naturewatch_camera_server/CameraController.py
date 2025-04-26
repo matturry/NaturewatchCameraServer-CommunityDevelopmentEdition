@@ -13,17 +13,15 @@ from bisect import bisect_left
 
 from .driver.Interface import LEDState, ImageResolution
 
-from .driver.RaspberryPiDriver import RPiDriver as Driver
-
 class CameraController(threading.Thread):
-    def __init__(self, logger, config):
+    def __init__(self, logger, driver, config):
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
         self.cancelled = False
 
         self.logger = logger
         self.config = config
-        self.driver = Driver(logger)
+        self.driver = driver
 
         self.driver.initialise_camera(config)
 

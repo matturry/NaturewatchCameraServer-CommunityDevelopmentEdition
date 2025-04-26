@@ -12,7 +12,6 @@ class ExposureMode(enum.Enum):
 class SharpnessMode(enum.Enum):
     AUTO = "auto"
     MANUAL = "manual"
-    RGB = "rgb"
 
 class ImageResolution(enum.Enum):
     LORES = "lores"
