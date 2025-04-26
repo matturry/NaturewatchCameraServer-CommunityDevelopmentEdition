@@ -253,3 +253,6 @@ yarn.lock
 
 # End user config file
 naturewatch_camera_server/static/data/config.json
+
+# vim swp files
+*.swp
