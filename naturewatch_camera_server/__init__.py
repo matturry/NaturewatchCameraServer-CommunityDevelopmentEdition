@@ -2,6 +2,7 @@
 import logging
 import pathlib
 import sys
+import os
 from shutil import copyfile
 from logging.handlers import RotatingFileHandler
 from naturewatch_camera_server.CameraController import CameraController
@@ -13,7 +14,10 @@ from naturewatch_camera_server.api import api
 from naturewatch_camera_server.data import data
 from naturewatch_camera_server.static_page import static_page
 
-from .driver.RaspberryPiDriver import RPiDriver as Driver
+if 'MOCK_VIDEO_PATH' in os.environ:
+    from .driver.MockDriver import MockDriver as Driver
+else:
+    from .driver.RaspberryPiDriver import RPiDriver as Driver
 
 
 MODULE_PATH = pathlib.Path(__file__).parent
