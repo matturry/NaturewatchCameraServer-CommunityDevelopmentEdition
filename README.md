@@ -1,24 +1,23 @@
 # NaturewatchCameraServer - Community Development edition
 
-This is the Developement branch for the My Naturewatch Camera. It is a Python server 
-script that captures a video stream from a Pi Camera and serves it as a .mjpg 
+This is the Community Development branch for the My Naturewatch Camera. It is a Python server 
+that captures a video stream from a Pi Camera and serves it as a .mjpg 
 through a control website to another device. The website can be used to start 
 a photo capture or video capture based on motion detected in the frame. The 
 software is designed to run on a Raspberry Pi Zero 2 W so that you can make your 
 own low-cost wildlife camera.
 
-Part of the My Naturewatch project by the Interaction Research Studio, in collaboration with the RCA. This project 
-
+Part of the My Naturewatch project by the Interaction Research Studio, in collaboration with the RCA.
 
 # Differences between versions
 
-- This branch is experimental, and is not intended to replace the Main branch software when a "Plug and Play" solution is required.
+- This branch is experimental, and is not intended to replace the original software when a "plug-and-play" experience is required.
 - Updated to Raspberry Pi OS based on Bookworm.
-- This software now using PiCamera2, allowing support for newer Pi Camera, like Pi Camera Module 3 (many thanks to [caracoluk](https://github.com/caracoluk) and [Vincent-Stragier](https://github.com/Vincent-Stragier)).
-- Wifi and Hotspot now controlled by NetworkManager.
-- Added features and camera controls the on settings panel.
+- Support for newer Pi Cameras with picamera2, like Pi Camera Module 3 (many thanks to [caracoluk](https://github.com/caracoluk) and [Vincent-Stragier](https://github.com/Vincent-Stragier)).
+- WiFi and hotspot now controlled by NetworkManager.
+- Additional features and camera controls in the settings panel.
 
-These updates now should make it easier for users to adapt and update MyNaturewatch Camera software using newer libaries and tools.
+These updates now should make it easier for community members to adapt and update the MyNaturewatch Camera software, with newer libaries and tools.
 
 # Supported Devices
 
@@ -32,9 +31,8 @@ These updates now should make it easier for users to adapt and update MyNaturewa
 
 # How to install
 
-Either clone the repository and build software locally, fork the repository and run the Github Actions build or download the latest commit build.
-
-Uncompress the zip file and burn this to an SD card. We recommend using [Raspberry Pi Imager](https://www.raspberrypi.com/software/) for this.
+1. Either clone the repository and build software locally, fork the repository and run the Github Actions build, or download the latest commit build.
+2. Uncompress the built zip file and burn this to an SD card. We recommend using [Raspberry Pi Imager](https://www.raspberrypi.com/software/) for this.
 
 ## Configuring the wifi setup
 
@@ -46,7 +44,7 @@ The website is then accessible through its IP address:
 
 	http://10.42.0.1
 	
-If your device has Bonjour installed, you can also use:
+If your device is Bonjour compatible, you can also use:
 
 	http://mynaturewatchcamera.local/
 	
