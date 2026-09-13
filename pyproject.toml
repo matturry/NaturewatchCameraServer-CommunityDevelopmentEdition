@@ -1,3 +1,28 @@
+[project]
+name="naturewatch_camera_server"
+dynamic=["version"]
+dependencies = [
+   "flask",
+   "opencv-python",
+   "numpy",
+   "imutils",
+   "RPi.GPIO",
+]
+readme="README.md"
+license="GPL-3.0"
+license-files=["LICENSE"]
+
+[project.scripts]
+naturewatch_camera_server = "naturewatch_camera_server:__main__"
+
+[tool.setuptools.packages.find]
+include=["naturewatch_camera_server"]
+
+[project.optional-dependencies]
+dev = [
+    "black"
+]
+
 [tool.black]
 line-length = 79
 include = '.pyi?$'
