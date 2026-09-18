@@ -5,7 +5,7 @@ dependencies = [
    "flask",
    "opencv-python",
    "numpy",
-   "imutils",
+   "imutils == 0.5.4",
    "RPi.GPIO",
 ]
 readme="README.md"
