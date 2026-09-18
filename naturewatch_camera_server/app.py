@@ -11,6 +11,7 @@ from flask import Flask
 from naturewatch_camera_server.api import api
 from naturewatch_camera_server.data import data
 from naturewatch_camera_server.static_page import static_page
+from naturewatch_camera_server.Config import Config, InvalidConfig
 
 
 def create_app():
@@ -32,52 +33,28 @@ def create_app():
     flask_app.logger.addHandler(stderr_handler)
 
     # Load configuration json
-    module_path = os.path.abspath(os.path.dirname(__file__))
-    flask_app.logger.info("Module path: " + module_path)
-    # load central config file first
-    flask_app.user_config = json.load(open(os.path.join(module_path, "config.json")))
-
-    # Check if data directory exists
-    if os.path.isdir(os.path.join(module_path, flask_app.user_config["data_path"])) is False:
-        os.mkdir(os.path.join(module_path, flask_app.user_config["data_path"]))
-        
-    # Check if a config file exists in data directory
-    if os.path.isfile(os.path.join(module_path, flask_app.user_config["data_path"], 'config.json')):
-        # if yes, load that file, too
-        flask_app.logger.info("Using config file from data context")
-        flask_app.user_config = json.load(open(os.path.join(module_path,
-                                                            flask_app.user_config["data_path"],
-                                                            'config.json')))
-    else:
-        # if not, copy central config file to data directory
-        flask_app.logger.warning("Config file does not exist within the data context, copying file")
-        copyfile(os.path.join(module_path, "config.json"),
-                 os.path.join(module_path, flask_app.user_config["data_path"], "config.json"))
-
+    flask_app.logger.info("Module path: " + Config.module_path)
+    try:
+        flask_app.user_config = Config.load_user_cfg()
+    except Exception as e:
+        return create_error_app(str(e))
+       
     # Set up logging to file
-    file_handler = logging.handlers.RotatingFileHandler(os.path.join(module_path, flask_app.user_config["data_path"], 'camera.log'), maxBytes=1024000, backupCount=5)
+    file_handler = logging.handlers.RotatingFileHandler(flask_app.user_config.camera_log_path), maxBytes=1024000, backupCount=5)
     file_handler.setLevel(logging.INFO)
-    numeric_loglevel = getattr(logging, flask_app.user_config["log_level"].upper(), None)
-    if not isinstance(numeric_loglevel, int):
-        flask_app.logger.info('Invalid log level {0} in config file: %s'.format(self.config["log_level"]))
-    else:
-        file_handler.setLevel(numeric_loglevel)
+    file_handler.setLevel(flask_app.user_config.log_level)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
     flask_app.logger.addHandler(file_handler)
     flask_app.logger.info("Logging to file initialised")
 
     # Find photos and videos paths
-    flask_app.user_config["photos_path"] = os.path.join(module_path, flask_app.user_config["photos_path"])
-    flask_app.logger.info("Photos path: " + flask_app.user_config["photos_path"])
-    if os.path.isdir(flask_app.user_config["photos_path"]) is False:
-        os.mkdir(flask_app.user_config["photos_path"])
-        flask_app.logger.warning("Photos directory does not exist, creating path")
-    flask_app.user_config["videos_path"] = os.path.join(module_path, flask_app.user_config["videos_path"])
-    flask_app.logger.info("Videos path: " + flask_app.user_config["videos_path"])
-    if os.path.isdir(flask_app.user_config["videos_path"]) is False:
-        os.mkdir(flask_app.user_config["videos_path"])
-        flask_app.logger.warning("Videos directory does not exist, creating path")
+    for p in [flask_app.user_config.photos_path, flask_app.user_config.videos_path]:
+        if not p.exists():
+            flask_app.logger.warning("Path %s does not exist, creating")
+        if not p.is_dir():
+            flask_app.logger.error("Path %s is not a directory!!", p)
+            return create_error_app(f"Path {p} is not a directory!!")
 
     # Instantiate classes
     flask_app.camera_controller = CameraController(flask_app.logger, flask_app.user_config)

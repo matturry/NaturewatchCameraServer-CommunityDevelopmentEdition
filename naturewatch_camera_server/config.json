@@ -6,8 +6,6 @@
     "exposure_mode": "auto",
     "feed_timeout_s": 60,
     "frame_rate": 20,
-    "img_height": 1080,
-    "img_width": 1920,
     "log_level": "INFO",
     "min_photo_interval_s": 1,
     "photos_path": "./static/data/photos/",

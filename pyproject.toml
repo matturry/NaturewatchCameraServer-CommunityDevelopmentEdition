@@ -20,7 +20,8 @@ include=["naturewatch_camera_server"]
 
 [project.optional-dependencies]
 dev = [
-    "black"
+    "black",
+    "pytest"
 ]
 
 [tool.black]
@@ -39,3 +40,10 @@ exclude = '''
     | dist
 )/
 '''
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-ra", "-q"]
+testpaths = [
+    "tests",
+]
