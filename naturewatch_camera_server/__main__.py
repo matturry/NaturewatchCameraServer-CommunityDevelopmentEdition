@@ -1,4 +1,4 @@
-from naturewatch_camera_server import create_app, create_error_app
+from naturewatch_camera_server.app import create_app, create_error_app
 import argparse
 import subprocess
 
