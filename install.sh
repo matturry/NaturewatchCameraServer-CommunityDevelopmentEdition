@@ -66,7 +66,7 @@ pushd $INSTALLATION_PATH
 pushd NaturewatchCameraServer
 
 # Install python dependencies
-${INSTALLATION_PATH}/NaturewatchCameraServer/.venv/bin/pip install -r requirements.txt
+${INSTALLATION_PATH}/NaturewatchCameraServer/.venv/bin/pip install -e pyproject.toml
 
 echo "Adding services"
 # Allows to reinstall the service

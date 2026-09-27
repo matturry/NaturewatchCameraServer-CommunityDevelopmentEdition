@@ -36,6 +36,23 @@ jobs:
           npm run build
           popd
 
+      - name: Configure Dev environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pushd repository
+          pip install '.[dev]'
+          popd
+          deactivate
+
+      - name: Run unit tests
+        run: |
+          source venv/bin/activate
+          pushd repository
+          pytest
+          popd
+          deactivate
+
       - name: Download Raspbian Image
         run: |
           cd repository/os/image
